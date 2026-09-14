@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5급 공채(기술) 면접 마스터 포털</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Pretendard', sans-serif; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.2s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-blue-700 flex items-center justify-center text-white shadow-md">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-lg text-slate-900">5급 공채(기술) 면접 종합 포털</span>
+            <span class="bg-sky-100 text-sky-800 text-xs font-semibold px-2 py-0.5 rounded-full">2026 대비</span>
+          </div>
+          <p class="text-xs text-slate-500">전기·전자·통신직 맞춤형 아카이브</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <div class="hidden md:flex items-center bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 space-x-2">
+          <i class="fa-regular fa-calendar-check text-sky-600"></i>
+          <span>토요일 모의면접: <strong>9월 19일 09:00</strong></span>
+        </div>
+        <a href="Interview_AI_Agent_Manual.pdf" target="_blank" class="inline-flex items-center space-x-1.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium px-3 py-2 rounded-lg transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>AI 매뉴얼 PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col md:flex-row gap-6 w-full">
+    <aside class="w-full md:w-64 shrink-0">
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm sticky top-24 space-y-1.5">
+        <div class="px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">메뉴 바로가기</div>
+        
+        <button onclick="showTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-sky-700 bg-sky-50 font-semibold">
+          <i class="fa-solid fa-house w-5 text-center text-sky-600"></i>
+          <span>대시보드 홈</span>
+        </button>
+
+        <button onclick="showTab('schedule')" id="btn-schedule" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100">
+          <i class="fa-regular fa-calendar-days w-5 text-center text-slate-400"></i>
+          <span>주간 일정표</span>
+        </button>
+
+        <button onclick="showTab('review')" id="btn-review" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100">
+          <i class="fa-solid fa-pen-to-square w-5 text-center text-emerald-500"></i>
+          <span>9/14 스터디 오답노트</span>
+          <span class="ml-auto bg-amber-100 text-amber-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">HOT</span>
+        </button>
+
+        <button onclick="showTab('economy')" id="btn-economy" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100">
+          <i class="fa-solid fa-coins w-5 text-center text-amber-500"></i>
+          <span>예산·시장경제 치트키</span>
+        </button>
+
+        <button onclick="showTab('vertical')" id="btn-vertical" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100">
+          <i class="fa-solid fa-users-viewfinder w-5 text-center text-indigo-500"></i>
+          <span>상사·수직갈등 가이드</span>
+        </button>
+
+        <button onclick="showTab('standards')" id="btn-standards" class="nav-btn w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100">
+          <i class="fa-solid fa-award w-5 text-center text-rose-500"></i>
+          <span>개편 4대 평정요소</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 space-y-6">
+
+      <!-- TAB 1: 대시보드 홈 -->
+      <div id="tab-dashboard" class="tab-content active space-y-6">
+        <div class="bg-gradient-to-r from-sky-700 via-sky-800 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl">
+          <div class="space-y-3">
+            <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-medium text-sky-200 border border-white/10">목표: 5급 기술직 면접 최종합격</span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">5급 공채 면접 전용 1:1 아카이브 포털</h1>
+            <p class="text-sm text-sky-100 max-w-2xl leading-relaxed">
+              스터디 피드백, 학원 교재, 안재석 서브노트의 핵심 논리가 이곳에 모여 있습니다. 언제든 원하는 주제를 클릭하여 모범 답안과 방어 논리를 확인하세요.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div onclick="showTab('review')" class="cursor-pointer bg-white p-5 rounded-2xl border border-slate-200 hover:border-sky-400 hover:shadow-md transition">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-clipboard-check text-lg"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-1">9/14 스터디 오답노트</h3>
+            <p class="text-xs text-slate-500">태양광 상황과제 & 의견관철 경험과제 첨삭 복기</p>
+          </div>
+
+          <div onclick="showTab('economy')" class="cursor-pointer bg-white p-5 rounded-2xl border border-slate-200 hover:border-sky-400 hover:shadow-md transition">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-chart-line text-lg"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-1">예산 & 시장경제 치트키</h3>
+            <p class="text-xs text-slate-500">구축효과, 비예산지원, 3초 즉답 템플릿</p>
+          </div>
+
+          <div onclick="showTab('vertical')" class="cursor-pointer bg-white p-5 rounded-2xl border border-slate-200 hover:border-sky-400 hover:shadow-md transition">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-user-shield text-lg"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-1">상사·수직갈등 가이드</h3>
+            <p class="text-xs text-slate-500">관리자의 리스크 해소와 3단 보고법</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: 주간 일정표 -->
+      <div id="tab-schedule" class="tab-content space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900">이번 주 면접 대비 일정표</h2>
+              <p class="text-xs text-slate-500 mt-0.5">2026년 9월 14일 ~ 9월 19일 확정 스케줄</p>
+            </div>
+            <span class="text-xs bg-sky-100 text-sky-800 px-3 py-1 rounded-full font-semibold">진행 중</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 bg-slate-50 text-slate-600 text-xs font-semibold">
+                  <th class="py-3 px-4">날짜</th>
+                  <th class="py-3 px-4">시간</th>
+                  <th class="py-3 px-4">일정 내용</th>
+                  <th class="py-3 px-4">주요 목표 및 준비사항</th>
+                  <th class="py-3 px-4 text-center">상태</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-xs">
+                <tr class="bg-emerald-50/40">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.14 (월)</td>
+                  <td class="py-3 px-4 font-semibold text-sky-700">09:00</td>
+                  <td class="py-3 px-4 font-bold text-slate-900">면접 스터디 (1일차)</td>
+                  <td class="py-3 px-4 text-slate-600">1문 1번(경험) + 푸드테크 PT + 태양광 상황과제 발표</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded">완료</span></td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.15 (화)</td>
+                  <td class="py-3 px-4 font-semibold text-sky-700">09:00</td>
+                  <td class="py-3 px-4 font-bold text-slate-900">면접 스터디 (2일차)</td>
+                  <td class="py-3 px-4 text-slate-600">2회차 과제 진행 및 실전 모의면접</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded">예정</span></td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.16 (수)</td>
+                  <td class="py-3 px-4 font-semibold text-sky-700">09:00</td>
+                  <td class="py-3 px-4 font-bold text-slate-900">면접 스터디 (3일차)</td>
+                  <td class="py-3 px-4 text-slate-600">3회차 과제 및 직무 PT 스피치 방어</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded">예정</span></td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.17 (목)</td>
+                  <td class="py-3 px-4 font-semibold text-indigo-700">19:00</td>
+                  <td class="py-3 px-4 font-bold text-slate-900">면접 특강 (1차)</td>
+                  <td class="py-3 px-4 text-slate-600">학원 강의 수강 및 핵심 평가 포인트 메모</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded">예정</span></td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.18 (금)</td>
+                  <td class="py-3 px-4 font-semibold text-indigo-700">19:00</td>
+                  <td class="py-3 px-4 font-bold text-slate-900">면접 특강 (2차)</td>
+                  <td class="py-3 px-4 text-slate-600">직무 PT 및 상황과제 심화 노하우 습득</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded">예정</span></td>
+                </tr>
+                <tr class="bg-sky-50/50">
+                  <td class="py-3 px-4 font-bold text-slate-800">09.19 (토)</td>
+                  <td class="py-3 px-4 font-semibold text-rose-600">09:00</td>
+                  <td class="py-3 px-4 font-bold text-rose-700">실전 모의면접</td>
+                  <td class="py-3 px-4 text-slate-700 font-medium">실전 4대 평정요소 기준 최종 시뮬레이션</td>
+                  <td class="py-3 px-4 text-center"><span class="bg-rose-100 text-rose-800 font-semibold px-2 py-0.5 rounded">D-5</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: 9/14 스터디 오답노트 -->
+      <div id="tab-review" class="tab-content space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900">9/14 스터디 복기 & 첨삭 오답노트</h2>
+            <p class="text-xs text-slate-500 mt-1">작성하신 파란색 답안과 빨간색 첨삭을 완벽하게 재구성했습니다.</p>
+          </div>
+
+          <!-- 1번 문항: 태양광 상황과제 -->
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+              <span class="bg-sky-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">상황과제 1</span>
+              <h3 class="font-bold text-slate-800 text-sm">취약계층 태양광 지원 vs 민간 시공업체 반발</h3>
+              <button onclick="copyText('solar-script')" class="text-xs text-sky-600 hover:text-sky-800 flex items-center space-x-1">
+                <i class="fa-regular fa-copy"></i>
+                <span>복사</span>
+              </button>
+            </div>
+            <div class="p-4 space-y-3 text-xs">
+              <div class="bg-rose-50 border-l-4 border-rose-500 p-3 rounded-r text-rose-900">
+                <p class="font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 스터디 피드백 핵심 급소</p>
+                <ul class="list-disc list-inside space-y-0.5 text-rose-800">
+                  <li><strong>공급업체 선발기준 부재</strong>: 공정한 Pool 등록 기준 제시 필요</li>
+                  <li><strong>새 기금 명칭 함부로 창작 금지</strong>: 기존 전력기반기금 등 법적 기금 연계</li>
+                  <li><strong>돈(단가 인상)으로만 해결 금지</strong>: 비예산적 지원 및 민간 위탁 상생 모델 필수</li>
+                </ul>
+              </div>
+
+              <div id="solar-script" class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-[11px] leading-relaxed whitespace-pre-wrap">
+[모범 개조식 답안]
+□ 기본 방향: 저소득층 에너지 복지 달성 + 민간 시장 침해 방지 상생 모델
+1. 소통 및 실태 분석
+ • 민·관·산·학 상생간담회 개최 (소상공인연합회, 에너지공단, 학계)
+ • 시장 분리 설명: 저소득층은 자비 구매력 전무 -> 민간 유료 시장 잠식 없음 증명
+2. 시장 왜곡 방지 및 상생 대안
+ • 공급업체 풀(Pool) 등록제: 전기공사 면허, 안전 실적 등 공정 평가 후 등록
+ • 공정 표준단가 보장: 출혈경쟁 방지 가격 하한선 설정
+ • 사후 O&M(유지보수) 일감 연계: 5~10년 장기 안전점검 용역 의무 배정
+ • 기존 기금 연계: 전력산업기반기금 및 한전 EERP 자금 매칭
+3. 사후관리 & Plan B
+ • 1~2개 지자체 시범사업(Pilot) 후 시장 영향 검증
+ • 끝까지 반발 시, 공공태양광 발전수익 배당 형태의 간접 지원 전환</div>
+            </div>
+          </div>
+
+          <!-- 2번 문항: 의견 관철 경험과제 -->
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+              <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">경험과제 2</span>
+              <h3 class="font-bold text-slate-800 text-sm">동아리 공간 재배치 갈등 & 조직의 장(회장) 설득</h3>
+              <button onclick="copyText('exp-script')" class="text-xs text-sky-600 hover:text-sky-800 flex items-center space-x-1">
+                <i class="fa-regular fa-copy"></i>
+                <span>복사</span>
+              </button>
+            </div>
+            <div class="p-4 space-y-3 text-xs">
+              <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r text-amber-900">
+                <p class="font-bold mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> 스터디 피드백 핵심 포인트 (실무자 vs 관리자)</p>
+                <p class="text-amber-800 leading-relaxed">
+                  "내가 다 알아서 할 테니 신경 쓰지 마라"는 관리자 입장에서 가장 불안한 답변입니다. <strong>회장이 걱정한 본질(예산 부족, 회원 불만, 사고 책임)</strong>을 선제적으로 해소해 주는 5급 사무관의 기획력을 보여주어야 합니다.
+                </p>
+              </div>
+
+              <div id="exp-script" class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-[11px] leading-relaxed whitespace-pre-wrap">
+[STAR 모범 답안]
+• Situation: 보드게임-콘솔게임 공간 혼재로 소음·통행 불편 갈등 빈발
+• Task: 동아리방 공간 재배치 및 가구 효율화 필요
+• Action (관리자의 리스크 해소):
+  - 회장의 우려(예산 부족, 부원 반발) 선제 분석
+  - 교내 불용 가구 나눔 및 중고 가구 협찬 조사로 비용 80% 절감안 마련
+  - 50명 대상 설문조사 및 3D 배치도 시각화 자료로 회장에게 1:1 사전 보고
+  - "회장님은 총괄 승인만 해주시고 실무 TF를 구성해 제가 책임지고 추진"
+• Result & 공직 적용점:
+  - 회장 최종 승인 -> 공간 활용도 40% 증가 및 만족도 95% 달성
+  - 상사 설득 시 단순 주장이 아닌 '관리자의 리스크를 지워주는 사전 데이터와 대안'의 중요성 체득</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: 예산 & 시장경제 치트키 -->
+      <div id="tab-economy" class="tab-content space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900">예산·사업·시장경제 핵심 치트키</h2>
+            <p class="text-xs text-slate-500 mt-1">면접관(기재부/고위관료)이 고개를 끄덕이는 고득점 경제·행정 키워드</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-5 space-y-2">
+              <span class="text-xs font-bold text-amber-800">Core Concept 1</span>
+              <h3 class="font-bold text-slate-900 text-sm">구축 효과 (Crowding-out) & 시장 잠식</h3>
+              <p class="text-xs text-slate-600">정부가 직접 나서서 민간 기업의 영역을 밀어내는 현상.</p>
+              <div class="bg-white p-3 rounded-xl border border-amber-200 text-xs text-slate-700 mt-2 space-y-1">
+                <p class="font-bold text-amber-900">방어 논리:</p>
+                <p>1. <strong>시장 분리</strong>: 취약계층은 애초에 자비 지불 여력이 없어 민간 유료 고객과 겹치지 않음.</p>
+                <p>2. <strong>상생 위탁</strong>: 정부가 새 일감을 발굴해 민간 업체에 적정 단가로 시공 위탁.</p>
+              </div>
+            </div>
+
+            <div class="bg-sky-50/60 border border-sky-200 rounded-2xl p-5 space-y-2">
+              <span class="text-xs font-bold text-sky-800">Core Concept 2</span>
+              <h3 class="font-bold text-slate-900 text-sm">비(非)예산 지원 & 기존 기금 연계</h3>
+              <p class="text-xs text-slate-600">세금을 펑펑 쓰거나 새 기금을 신설하겠다고 하면 감점!</p>
+              <div class="bg-white p-3 rounded-xl border border-sky-200 text-xs text-slate-700 mt-2 space-y-1">
+                <p class="font-bold text-sky-900">면접관 감동 순서:</p>
+                <p>1. <strong>규제 샌드박스</strong> (실증특례, 임시허가로 기업 숨통)</p>
+                <p>2. <strong>세액공제</strong> (R&D 투자비 세제 감면)</p>
+                <p>3. <strong>기존 기금 매칭</strong> (전력기반기금, 기후대응기금)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="p-3 w-1/3">면접관의 공격</th>
+                  <th class="p-3">기술직 수험생의 모범 방어 멘트</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-600">
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3 font-semibold text-rose-700">"정부가 시장 생태계 망칩니다!"</td>
+                  <td class="p-3">"기존 시장을 잠식하는 것이 아니라, 구매력이 없는 영역의 신규 수요를 정부가 창출하여 민간에 일감으로 배분하는 상생 모델입니다."</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3 font-semibold text-rose-700">"그 많은 예산 어디서 조달합니까?"</td>
+                  <td class="p-3">"보조금 대신 세액공제와 공공조달 판로 연계 등 비예산 지원을 우선하고, 부족한 재원은 기존 법정 기금의 잔여 재원을 연계하겠습니다."</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3 font-semibold text-rose-700">"기업들이 지원금만 타먹고 도망가면?"</td>
+                  <td class="p-3">"마일스톤 기반 분할 지급제를 적용하고, 부정 적발 시 전액 환수 및 5년간 공공사업 참여를 제한하는 원스트라이크 아웃제를 도입하겠습니다."</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: 수직관계·상사 갈등 가이드 -->
+      <div id="tab-vertical" class="tab-content space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900">관리자-실무자(수직관계) 갈등 해결 가이드</h2>
+            <p class="text-xs text-slate-500 mt-1">상사의 관점(리스크)을 이해하고 설득하는 5급 사무관의 역량</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1">
+              <span class="font-bold text-indigo-700">실무자 (신임 사무관)의 시각</span>
+              <p class="text-slate-600">• "신기술 도입해서 효율성 높이자!"</p>
+              <p class="text-slate-600">• "이 사업 추진해서 성과 내자!"</p>
+              <p class="text-slate-600">• "당장 현장의 불편을 해소하자!"</p>
+            </div>
+            <div class="bg-indigo-50/60 border border-indigo-200 p-4 rounded-xl space-y-1">
+              <span class="font-bold text-indigo-900">관리자 (과장/국장/회장)의 시각</span>
+              <p class="text-slate-700 font-medium">• "사고 나면 감사원 감사, 언론 보도 어쩌지?"</p>
+              <p class="text-slate-700 font-medium">• "올해 예산도 빠듯한데 타 부서와 형평성은?"</p>
+              <p class="text-slate-700 font-medium">• "실무진 업무 과중으로 이탈하면 어쩌지?"</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+            <div class="bg-white border border-slate-200 p-3 rounded-xl text-center">
+              <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold mx-auto mb-1 flex items-center justify-center">1</div>
+              <p class="font-bold text-slate-800">경청 & 우려 파악</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">상사의 리스크 정확히 공감</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-xl text-center">
+              <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold mx-auto mb-1 flex items-center justify-center">2</div>
+              <p class="font-bold text-slate-800">객관적 데이터</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">선진국 사례, 설문 수치화</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-xl text-center">
+              <div class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 font-bold mx-auto mb-1 flex items-center justify-center">3</div>
+              <p class="font-bold text-sky-800">복수대안 & 안전장치</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">A/B/C안 + 시범사업(Pilot)</p>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-xl text-center">
+              <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold mx-auto mb-1 flex items-center justify-center">4</div>
+              <p class="font-bold text-slate-800">결정 승복 & 사후보완</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">충실 집행 + 부작용 모니터링</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: 개편 4대 평정요소 -->
+      <div id="tab-standards" class="tab-content space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900">2024~ 인사혁신처 개편 4대 평정요소</h2>
+            <p class="text-xs text-slate-500 mt-1">공무원 인재상에 맞춰 모든 답변을 4개 항목으로 매핑하세요.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 rounded-2xl border border-sky-200 bg-sky-50/40 space-y-1.5">
+              <span class="font-bold text-sky-800 text-sm">1. 소통·공감</span>
+              <p class="text-slate-600 leading-relaxed">국민 등과 소통하고 공감하는 능력 (경청, 배려, 이해관계자 갈등 조정, 대국민 설명력)</p>
+            </div>
+            <div class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/40 space-y-1.5">
+              <span class="font-bold text-emerald-800 text-sm">2. 헌신·열정</span>
+              <p class="text-slate-600 leading-relaxed">국가와 국민에 대해 헌신하고 열정적인 태도 (적극행정, 공익 우선, 주도적 문제 해결)</p>
+            </div>
+            <div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/40 space-y-1.5">
+              <span class="font-bold text-amber-800 text-sm">3. 창의·혁신</span>
+              <p class="text-slate-600 leading-relaxed">창의성과 혁신을 바탕으로 과제를 해결하는 능력 (신기술 융합, 기존 관행 탈피, 유연한 사고)</p>
+            </div>
+            <div class="p-4 rounded-2xl border border-indigo-200 bg-indigo-50/40 space-y-1.5">
+              <span class="font-bold text-indigo-800 text-sm">4. 윤리·책임</span>
+              <p class="text-slate-600 leading-relaxed">공직자로서의 윤리의식과 책임감 (청렴성, 투명성, 공정성, 정책 결과 사후관리)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-xl transition opacity-0 pointer-events-none flex items-center space-x-2">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toast-msg">복사되었습니다!</span>
+  </div>
+
+  <footer class="border-t border-slate-200 bg-white py-4 mt-auto text-center text-xs text-slate-400">
+    5급 기술직 공채 면접 파트너 &copy; 2026. 최종 합격을 진심으로 기원합니다.
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-sky-700', 'bg-sky-50', 'font-semibold');
+        btn.classList.add('text-slate-600');
+      });
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('text-sky-700', 'bg-sky-50', 'font-semibold');
+        activeBtn.classList.remove('text-slate-600');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyText(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('클립보드에 복사되었습니다!');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
